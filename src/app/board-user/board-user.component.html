@@ -1,0 +1,17 @@
+<div class="container">
+  <header class="jumbotron">
+    <form [formGroup]="createForm" (ngSubmit)="onSubmitCreate()">
+  <div>
+    <input id="roomCreate" type="hidden" [(ngModel)]="username" formControlName="roomCreate">
+  </div>
+  <button class="button" type="submit" >Create Game</button>
+</form>
+
+<form [formGroup]="joinForm" (ngSubmit)="onSubmitJoin()">
+  <div>
+    <input id="roomJoin" type="text" formControlName="roomJoin">
+  </div>
+  <button class="button" type="submit" >Join Game</button>
+</form>
+  </header>
+</div>
