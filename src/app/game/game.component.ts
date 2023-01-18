@@ -19,6 +19,8 @@ export class GameComponent implements AfterViewInit {
   isLoggedIn = false;
   audiohit = new Audio();
   audiomiss = new Audio();
+  audiosink = new Audio();
+  audiodown = new Audio();
   
   constructor(
     private router: Router,
@@ -29,6 +31,10 @@ export class GameComponent implements AfterViewInit {
     this.audiohit.load();
     this.audiomiss.src = "assets/miss.mp3";
     this.audiomiss.load();
+    this.audiosink.src = "assets/sink.mp3";
+    this.audiosink.load();
+    this.audiodown.src = "assets/down.mp3";
+    this.audiodown.load();
     }
 
 
@@ -146,7 +152,10 @@ export class GameComponent implements AfterViewInit {
 
       // Ready button click
       startButton!.addEventListener('click', () => {
-        if (allShipsPlaced) playGameMulti(socket)
+        if (allShipsPlaced) {
+          playGameMulti(socket);
+          infoDisplay!.innerHTML = ""
+        }
         else infoDisplay!.innerHTML = "Please place all ships"
       })
 
@@ -350,6 +359,7 @@ export class GameComponent implements AfterViewInit {
     function playGameMulti(socket: io.Socket<DefaultEventsMap, DefaultEventsMap>) {
       startButton!.style.display = 'none'
       rotateButton!.style.display = 'none'
+      turnDisplay!.innerHTML = 'Waiting for enemy bieng ready ...'
       if (isGameOver) return
       if (!ready) {
         socket.emit('player-ready')
@@ -421,30 +431,40 @@ export class GameComponent implements AfterViewInit {
      
       }
       currentPlayer = 'user'
-      turnDisplay!.innerHTML = 'Your Go'
+      turnDisplay!.innerHTML = ''
     }
 
-    function checkForWins() {
+    const checkForWins = () => {
       let enemy = 'enemy'
       if (gameMode === 'multiPlayer') enemy = 'enemy'
       if (destroyerCount === 2) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s destroyer`
+        this.audiosink.play();
+        this.audiodown.play();
         destroyerCount = 10
       }
       if (submarineCount === 3) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s submarine`
+        this.audiosink.play();
+        this.audiodown.play();
         submarineCount = 10
       }
       if (cruiserCount === 3) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s cruiser`
+        this.audiosink.play();
+        this.audiodown.play();
         cruiserCount = 10
       }
       if (battleshipCount === 4) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s battleship`
+        this.audiosink.play();
+        this.audiodown.play();
         battleshipCount = 10
       }
       if (carrierCount === 5) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s carrier`
+        this.audiosink.play();
+        this.audiodown.play();
         carrierCount = 10
       }
       if (cpuDestroyerCount === 2) {

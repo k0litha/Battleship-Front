@@ -39,8 +39,9 @@ body {
   
   .btn {
     font-size: inherit;
-    background-color: hsl(30, 100%, 50%);
-    padding: .5em 1em;
+    background-color: hsl(107, 90%, 41%);
+    padding: .2em 1em;
+    margin-left:.5em;
     outline: none;
     border: none;
     text-decoration: none;
@@ -85,7 +86,7 @@ body {
   .taken,
   .ship {
     position: relative;
-    background-color: hsl(0, 0%, 80%);
+    background-color: hsl(0, 0%, 63%);
   }
   
   .taken.start.vertical,
@@ -178,7 +179,7 @@ body {
   }
   
   .battleship-grid div {
-    border: 1px solid hsla(0, 0%, 100%, .2);
+    border: 1px solid rgba(255, 255, 255, 0.556);
   }
   
   .destroyer-container {
@@ -285,7 +286,7 @@ body {
     }
   
     100% {
-      background-color: hsl(0, 0%, 80%);
+      background-color: hsla(0, 54%, 50%, 0.521);
     }
   }
   

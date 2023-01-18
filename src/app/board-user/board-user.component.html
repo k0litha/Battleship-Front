@@ -1,17 +1,26 @@
-<div class="container">
-  <header class="jumbotron">
-    <form [formGroup]="createForm" (ngSubmit)="onSubmitCreate()">
-  <div>
-    <input id="roomCreate" type="hidden" [(ngModel)]="username" formControlName="roomCreate">
-  </div>
-  <button class="button" type="submit" >Create Game</button>
-</form>
 
-<form [formGroup]="joinForm" (ngSubmit)="onSubmitJoin()">
-  <div>
-    <input id="roomJoin" type="text" formControlName="roomJoin">
+
+<div class="col-md-12">
+  <div class="card card-container">
+    <div class="form-group">
+    <form [formGroup]="createForm" (ngSubmit)="onSubmitCreate()">
+      <div>
+        <input id="roomCreate" type="hidden" [(ngModel)]="username" formControlName="roomCreate">
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" >Create Game</button>
+    </form>
   </div>
-  <button class="button" type="submit" >Join Game</button>
-</form>
-  </header>
+
+<br><h3><hr style="height:2px;border-width:0;color:gray;background-color:gray"></h3><br>
+<div class="form-group">
+    <form [formGroup]="joinForm" (ngSubmit)="onSubmitJoin()">
+      <div>
+        <input class="form-control" id="roomJoin" type="text" placeholder="player username" formControlName="roomJoin">
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" >Join Game</button>
+
+    </form>
+  </div>
+
+  </div>
 </div>
