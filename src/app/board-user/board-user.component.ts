@@ -25,6 +25,7 @@ export class BoardUserComponent implements OnInit {
     isLoggedIn = false;
     username?: string;
     onSubmitCreate() {
+      alert("Send you username to your friend to join the game !");
       this.router.navigate(['game'], { state: this.createForm.value})
     }
   

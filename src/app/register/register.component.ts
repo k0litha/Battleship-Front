@@ -29,6 +29,10 @@ export class RegisterComponent implements OnInit {
         console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+        setTimeout(redirect, 3000);
+        function redirect() {
+          window.location.replace("http://localhost:8081/");
+        }
       },
       error: err => {
         this.errorMessage = err.error.message;

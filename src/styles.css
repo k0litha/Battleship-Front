@@ -5,8 +5,9 @@ body {
     background-image: url('/assets/back.webp');
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: cover
-    
+    background-size: cover;
+    text-align: center;
+  
   }
   
   *, *::before, *::after {
@@ -37,7 +38,7 @@ body {
     opacity: .25;
   }
   
-  .btn {
+  .btngame {
     font-size: inherit;
     background-color: hsl(107, 90%, 41%);
     padding: .2em 1em;
@@ -50,7 +51,7 @@ body {
     color: #333;
   }
   
-  .btn:hover, .btn:focus {
+  .btngame:hover, .btngame:focus {
     background-color: hsl(30, 100%, 40%);
   }
   

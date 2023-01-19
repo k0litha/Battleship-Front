@@ -47,19 +47,10 @@ export class LoginComponent implements OnInit {
       }
     });
     
-    this.userService.showScore(username).subscribe({
-      next: data => {
-        
-        this.scores=data
-        console.log(this.scores)
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
+
   }
 
   redierctPage(): void {
-    window.location.replace("http://localhost:8081/user");
+    window.location.replace("http://localhost:8081/");
   }
 }

@@ -17,13 +17,13 @@ export class AppComponent {
 
 
   constructor(private storageService: StorageService, private authService: AuthService) {
-    
   }
 
 
   ngOnInit(): void {
-
+   
     this.isLoggedIn = this.storageService.isLoggedIn();
+  
 
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();

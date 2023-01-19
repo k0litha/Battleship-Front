@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { StorageService } from '../_services/storage.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -8,10 +10,25 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit {
   content?: string;
+  isLoggedIn = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+    private router: Router,
+    private storageService: StorageService) { }
  
+  onLogin() {
+    this.router.navigate(['login'])
+  }
+  onSignup() {
+    this.router.navigate(['register'])
+  }
+  onPlay() {
+    this.router.navigate(['user'])
+  }
+
   ngOnInit(): void {
+
+    this.isLoggedIn = this.storageService.isLoggedIn();
     this.userService.getPublicContent().subscribe({
       next: data => {
         this.content = data;

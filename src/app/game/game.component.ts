@@ -21,6 +21,7 @@ export class GameComponent implements AfterViewInit {
   audiomiss = new Audio();
   audiosink = new Audio();
   audiodown = new Audio();
+  audiobattle = new Audio();
   
   constructor(
     private router: Router,
@@ -29,12 +30,18 @@ export class GameComponent implements AfterViewInit {
 
     this.audiohit.src = "assets/hit.mp3";
     this.audiohit.load();
+    this.audiohit.volume=   0.3;
     this.audiomiss.src = "assets/miss.mp3";
     this.audiomiss.load();
+    this.audiomiss.volume=   0.3;
     this.audiosink.src = "assets/sink.mp3";
     this.audiosink.load();
+    this.audiosink.volume=   0.5;
     this.audiodown.src = "assets/down.mp3";
     this.audiodown.load();
+    this.audiodown.volume=   0.5;
+    this.audiobattle.src = "assets/battle.mp3";
+    
     }
 
 
@@ -47,7 +54,10 @@ export class GameComponent implements AfterViewInit {
     } else {
       window.location.replace('http://localhost:8081');
     }
+  
   }
+  
+ 
 
 
   onGameOver(state: string): void {
@@ -56,11 +66,13 @@ export class GameComponent implements AfterViewInit {
     this.userService.insertScore(this.username!, state).subscribe({
       next: data => {
         console.log("Game state saved");
+
       },
       error: err => {
         console.log(err);
       }
     });
+
   }
 
 
@@ -76,14 +88,13 @@ export class GameComponent implements AfterViewInit {
     const carrier = document.querySelector('.carrier-container')
     const startButton = <HTMLElement>document.querySelector('#start')
     const rotateButton = <HTMLElement>document.querySelector('#rotate')
+    const homeButton = <HTMLElement>document.querySelector('#home')
     const turnDisplay = document.querySelector('#whose-go')
     const infoDisplay = document.querySelector('#info')
-    //const multiPlayerButton = document.querySelector('#multiPlayerButton')
     const userSquares: any[] = []
     const computerSquares: any[] = []
     let isHorizontal = true
     let isGameOver = false
-    let isYouWin = false
     let currentPlayer = 'user'
     const width = 10
     let gameMode = ""
@@ -92,10 +103,7 @@ export class GameComponent implements AfterViewInit {
     let enemyReady = false
     let allShipsPlaced = false
     let shotFired = -1
-
-    // Select Player Mode
-    //multiPlayerButton!.addEventListener('click', startMultiPlayer)
-    // Multiplayer     
+    homeButton!.style.display = 'none'
 
     function startMultiPlayer() {
       const socket = io.connect('http://localhost:3000');
@@ -245,7 +253,7 @@ export class GameComponent implements AfterViewInit {
 
 
     //Rotate the ships
-    function rotate() {
+    const rotate = () => {
       if (isHorizontal) {
         destroyer!.classList.toggle('destroyer-container-vertical')
         submarine!.classList.toggle('submarine-container-vertical')
@@ -359,8 +367,8 @@ export class GameComponent implements AfterViewInit {
     function playGameMulti(socket: io.Socket<DefaultEventsMap, DefaultEventsMap>) {
       startButton!.style.display = 'none'
       rotateButton!.style.display = 'none'
-      turnDisplay!.innerHTML = 'Waiting for enemy bieng ready ...'
       if (isGameOver) return
+      turnDisplay!.innerHTML = 'Waiting for enemy bieng ready ...'
       if (!ready) {
         socket.emit('player-ready')
         ready = true
@@ -490,15 +498,22 @@ export class GameComponent implements AfterViewInit {
 
       if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
         infoDisplay!.innerHTML = "YOU WON"
+        homeButton!.style.display = ''
         gameOver("YOU WON")
-
+        
       }
       if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) === 50) {
         infoDisplay!.innerHTML = `${enemy.toUpperCase()} WON`
-        isYouWin = false
+        homeButton!.style.display = ''
         gameOver("YOU LOSE")
       }
     }
+    
+
+    const goHome = () => {
+      window.location.replace("http://localhost:8081/");
+    }
+    homeButton!.addEventListener('click', goHome)
 
     const gameOver = (state: string) => {
       isGameOver = true
