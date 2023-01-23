@@ -1,26 +1,32 @@
+<div id="login-form-wrap">
+  <img src="assets/logo.webp" width="250" height="150">
+  <form [formGroup]="createForm" (ngSubmit)="onSubmitCreate()" id="login-form">
+    <p>
+      <input id="roomCreate" type="hidden" [(ngModel)]="username">
+    </p>
+    <p>
+      <input type="submit" id="login" value="Create Game">
+    </p>
+  </form>
+
+  
+    <hr style="width:70%;height:1px;border-width:0;color:gray;background-color:rgb(196, 193, 193)">
+  
+
+    <h5>OR</h5>
 
 
-<div class="col-md-12">
-  <div class="card card-container">
-    <div class="form-group">
-    <form [formGroup]="createForm" (ngSubmit)="onSubmitCreate()">
-      <div>
-        <input id="roomCreate" type="hidden" [(ngModel)]="username" formControlName="roomCreate">
-      </div>
-      <button class="btn btn-primary btn-block" type="submit" >Create Game</button>
-    </form>
-  </div>
+  
+  <hr style="width:70%;height:1px;border-width:0;color:gray;background-color:rgb(196, 193, 193)">
+ 
+  <form [formGroup]="joinForm" (ngSubmit)="onSubmitJoin()" id="login-form">
+    <p>
+      <input type="text" id="roomJoin" name="roomJoin" placeholder="Friend's username" required><i
+        class="validation"><span></span><span></span></i>
+    </p>
+    <p>
+      <input type="submit" id="login" value="Join Game">
+    </p>
+  </form>
 
-<br><h3><hr style="height:2px;border-width:0;color:gray;background-color:gray"></h3><br>
-<div class="form-group">
-    <form [formGroup]="joinForm" (ngSubmit)="onSubmitJoin()">
-      <div>
-        <input class="form-control" id="roomJoin" type="text" placeholder="player username" formControlName="roomJoin">
-      </div>
-      <button class="btn btn-primary btn-block" type="submit" >Join Game</button>
-
-    </form>
-  </div>
-
-  </div>
 </div>

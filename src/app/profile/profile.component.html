@@ -22,9 +22,11 @@
             <tr>
   
               <th>Username</th>
-              <th>State</th>
+              <th>Win or Loss</th>
+              <th>Sinked Ships</th>
               <th>Date</th>
               <th>Time</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -32,6 +34,7 @@
   
               <td>{{ user.username }}</td>
               <td>{{ user.state }}</td>
+              <td>{{ user.sinked }}</td>
               <td>{{ dateConvert(user.date) }}</td>
               <td>{{ timeConvert(user.date) }}</td>
   

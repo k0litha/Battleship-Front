@@ -60,20 +60,6 @@ export class GameComponent implements AfterViewInit {
  
 
 
-  onGameOver(state: string): void {
-    const user = this.storageService.getUser();
-    this.username = user.username;
-    this.userService.insertScore(this.username!, state).subscribe({
-      next: data => {
-        console.log("Game state saved");
-
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
-
-  }
 
 
   ngAfterViewInit() {
@@ -253,7 +239,7 @@ export class GameComponent implements AfterViewInit {
 
 
     //Rotate the ships
-    const rotate = () => {
+    const rotate = () => { 
       if (isHorizontal) {
         destroyer!.classList.toggle('destroyer-container-vertical')
         submarine!.classList.toggle('submarine-container-vertical')
@@ -367,8 +353,8 @@ export class GameComponent implements AfterViewInit {
     function playGameMulti(socket: io.Socket<DefaultEventsMap, DefaultEventsMap>) {
       startButton!.style.display = 'none'
       rotateButton!.style.display = 'none'
-      if (isGameOver) return
-      turnDisplay!.innerHTML = 'Waiting for enemy bieng ready ...'
+      if (isGameOver) return;
+  
       if (!ready) {
         socket.emit('player-ready')
         ready = true
@@ -382,7 +368,7 @@ export class GameComponent implements AfterViewInit {
         if (currentPlayer === 'enemy') {
           turnDisplay!.innerHTML = "Enemy's Go"
         }
-      }
+      }else  turnDisplay!.innerHTML = 'Waiting for enemy bieng ready ...'
     }
 
     function playerReady(num: any) {
@@ -441,7 +427,7 @@ export class GameComponent implements AfterViewInit {
       currentPlayer = 'user'
       turnDisplay!.innerHTML = ''
     }
-
+    let totalShipSinked = 0
     const checkForWins = () => {
       let enemy = 'enemy'
       if (gameMode === 'multiPlayer') enemy = 'enemy'
@@ -450,30 +436,35 @@ export class GameComponent implements AfterViewInit {
         this.audiosink.play();
         this.audiodown.play();
         destroyerCount = 10
+        totalShipSinked++;
       }
       if (submarineCount === 3) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s submarine`
         this.audiosink.play();
         this.audiodown.play();
         submarineCount = 10
+        totalShipSinked++;
       }
       if (cruiserCount === 3) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s cruiser`
         this.audiosink.play();
         this.audiodown.play();
         cruiserCount = 10
+        totalShipSinked++;
       }
       if (battleshipCount === 4) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s battleship`
         this.audiosink.play();
         this.audiodown.play();
         battleshipCount = 10
+        totalShipSinked++;
       }
       if (carrierCount === 5) {
         infoDisplay!.innerHTML = `You sunk the ${enemy}'s carrier`
         this.audiosink.play();
         this.audiodown.play();
         carrierCount = 10
+        totalShipSinked++;
       }
       if (cpuDestroyerCount === 2) {
         infoDisplay!.innerHTML = `${enemy} sunk your destroyer`
@@ -497,35 +488,46 @@ export class GameComponent implements AfterViewInit {
       }
 
       if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
+        turnDisplay!.innerHTML = ''
         infoDisplay!.innerHTML = "YOU WON"
         homeButton!.style.display = ''
         gameOver("YOU WON")
         
       }
       if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) === 50) {
+        turnDisplay!.innerHTML = ''
         infoDisplay!.innerHTML = `${enemy.toUpperCase()} WON`
         homeButton!.style.display = ''
         gameOver("YOU LOSE")
       }
     }
-    
+
+    const onGameOver = (state: string,sinked: string) => {
+      const user = this.storageService.getUser();
+      this.username = user.username;
+      this.userService.insertScore(this.username!, state, sinked).subscribe({
+        next: data => {
+          console.log("Game state saved");
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+  
+    }
 
     const goHome = () => {
       window.location.replace("http://localhost:8081/");
     }
     homeButton!.addEventListener('click', goHome)
 
+
     const gameOver = (state: string) => {
       isGameOver = true
-      this.onGameOver(state);
+      onGameOver(state,totalShipSinked.toString());
     }
 
     startMultiPlayer();
   }
-
-
-
-
-
 }
 

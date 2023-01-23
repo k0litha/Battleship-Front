@@ -21,12 +21,13 @@ export class UserService {
     return this.http.get(API_URL + 'user', { responseType: 'text' });
   }
 
-  insertScore(username: string, state: string): Observable<any> {
+  insertScore(username: string, state: string,sinked: string): Observable<any> {
     return this.http.post(
       API_URL + 'savescore',
       {
         username,
-        state
+        state,
+        sinked
       },
       httpOptions
     );
